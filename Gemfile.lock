@@ -74,6 +74,7 @@ PLATFORMS
 
 DEPENDENCIES
   pry
+  rack
   sinatra
   sinatra-contrib
   sinatra_auth_github
