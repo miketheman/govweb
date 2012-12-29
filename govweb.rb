@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 require 'sinatra'
-require 'sinatra/reloader'
 require 'sinatra/auth/github'
 
 module GovWeb
   class App < Sinatra::Base
     configure :development do
+      require 'sinatra/reloader'
       register Sinatra::Reloader
     end
 
