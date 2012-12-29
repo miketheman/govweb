@@ -9,6 +9,10 @@ module GovWeb
       register Sinatra::Reloader
     end
 
+    configure :production do
+      require 'newrelic_rpm'
+    end
+
     configure do
       set :public_folder, Proc.new { File.join(root, "static") }
 
