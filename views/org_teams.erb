@@ -1,0 +1,14 @@
+<p>Here are the teams for <%= params['id'] %>:</p>
+
+<ul>
+<% for team in org_teams(params['id']) %>
+  <li><%= team['name'] %></li>
+<% end %>
+</ul>
+<%# FIXME: Sort the list alphabetically before displaying? %>
+
+<ul>
+<% for team in org_teams(params['id']) %>
+  <li><%= team['name'] %>, <%= team['permission'] %>, <% team['id'] %></li>
+<% end %>
+</ul>

@@ -1,3 +1,3 @@
-require File.join(File.dirname(__FILE__), 'init.rb')
+require File.join(File.dirname(__FILE__), 'govweb.rb')
 
-run Sinatra::Application
+run GovWeb::App

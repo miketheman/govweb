@@ -1,0 +1,131 @@
+
+<script src="/lib/sigma.min.js"></script>
+<script src="/lib/sigma.forceatlas2.js"></script>
+
+<div class="row">
+  <h2 class="span2" id="post-title"><%= params['id'] %></h2>
+
+  <div class="span6 buttons-container">
+    <button class="btn" id="stop-layout">Stop Layout</button>
+    <button class="btn" id="rescale-graph">Rescale Graph</button>
+  </div>
+
+  <h6 class="span4">
+    Click Stop Layout to draw connections
+  </h6>
+
+</div>
+
+<div class="row">
+  <div class="span12 sigma-parent" id="sigma-example-parent">
+    <div class="sigma-expand" id="sig"></div>
+  </div>
+</div>
+<br>
+
+<script type="text/javascript">
+  function init() {
+    var sigInst = sigma.init(document.getElementById('sig')).drawingProperties({
+        defaultLabelColor: '#fff',
+        defaultLabelSize: 10,
+        defaultLabelBGColor: '#fff',
+        defaultLabelHoverColor: '#000',
+        labelThreshold: 6,
+        defaultEdgeType: 'curve',
+        font: 'Verdana',
+      }).graphProperties({
+        minNodeSize: 1,
+        maxNodeSize: 10,
+        minEdgeSize: 2,
+        maxEdgeSize: 5
+      }).mouseProperties({
+        maxRatio: 4
+      });
+
+    sigInst
+<%# This is where we get all funky. We end up building a massive, data-driven object. -%>
+<%# We collect each team name from the top-level organization here -%>
+  <% for team in org_teams(params['id']) -%>
+    .addNode('<%= team['slug'] %>_team', { label: '<%= team['name'] %>',
+        color: '#0000ff', size: 3,
+        x: Math.random(),y: Math.random()
+    })
+  <% end -%>
+<%# In the main code, we collect all the team members and unique the list -%>
+  <% for member in @uniq_members -%>
+    .addNode('<%= member %>', { label: '<%= member %>',
+        color: '#C0C0C0',
+        x: Math.random(),y: Math.random()
+    })
+  <% end -%>
+<%# %>
+  <% for repo in @uniq_repos -%>
+    .addNode('<%= repo %>', { label: '<%= repo %>',
+        color: '#ff0000', size: 5,
+        x: Math.random(),y: Math.random()
+    })
+  <% end -%>
+
+<%# Edge time -%>
+    <% for team in org_teams(params['id']) -%>
+      <% for member in get_team_members(team['id'])[:members] -%>
+      .addEdge('<%= member %>_<%= team['id'] %>', '<%= team['slug'] %>_team', '<%= member %>')
+      <% end -%>
+      <% for repo in get_team_repos(team['id'])[:repos] -%>
+      .addEdge('<%= team['id'] %>_<%= repo %>', '<%= team['slug'] %>_team', '<%= repo %>')
+      <% end -%>
+    <% end -%>
+
+    .draw();
+
+    // Start the ForceAtlas2 algorithm
+    sigInst.startForceAtlas2();
+
+    var isRunning = true;
+    document.getElementById('stop-layout').addEventListener('click',function(){
+      if(isRunning){
+        isRunning = false;
+        sigInst.stopForceAtlas2();
+        document.getElementById('stop-layout').childNodes[0].nodeValue = 'Start Layout';
+      }else{
+        isRunning = true;
+        sigInst.startForceAtlas2();
+        document.getElementById('stop-layout').childNodes[0].nodeValue = 'Stop Layout';
+      }
+    },true);
+    document.getElementById('rescale-graph').addEventListener('click',function(){
+      sigInst.position(0,0,1).draw();
+    },true);
+
+  }
+
+  if (document.addEventListener) {
+    document.addEventListener("DOMContentLoaded", init, false);
+  } else {
+    window.onload = init;
+  }
+</script>
+
+
+<style type="text/css">
+  /* sigma.js context : */
+  .sigma-parent {
+    position: relative;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    background: #222;
+    height: 600px;
+  }
+  .sigma-expand {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+  .buttons-container{
+    padding-bottom: 8px;
+    padding-top: 12px;
+  }
+</style>

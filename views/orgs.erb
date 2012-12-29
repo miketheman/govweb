@@ -1,0 +1,14 @@
+<p>You are a member of the following organization(s):</p>
+
+<ul>
+<% for org in user_orgs %>
+  <li><a href = "/secure/graph/<%= org['login'] %>"><%= org['login'] %></a></li>
+<% end %>
+</ul>
+<%# FIXME: Sort the list alphabetically before displaying? %>
+
+<p>Click one to display the map for this organization.</p>
+
+<p><strong>NOTE:</strong> if you are not a member of the Organizations'
+<strong>Owners</strong> group, you will only see the <em>Teams</em> and
+<em>Repos</em> you have access to.</p>
