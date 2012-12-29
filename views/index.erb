@@ -3,20 +3,23 @@
 This site aims to enable a Github Owner of an Organization to visualize their
 repos and teams.
 
-<p>Link to authenticated <a href="/secure/place">secret</a></p>
-
-<p>Click <a href="/secure/orgs">My Organizations</a> to show all of the organizations you
+<p>Click <a href = "/secure/orgs">My Organizations</a> to show all of the organizations you
   are associated with.<p>
 
 <p>This will <em>not</em> show personal repositories that have collaborators, as
   they do not follow the same model, and are inherently less complicated.</p>
 
+<p>This project is <a href = "http://en.wikipedia.org/wiki/Free_and_open_source_software">FOSS</a>
+  and comes with no guarantees whatsoever, other than the fact that we do NOT
+  collect any of your personal information.
+  </p>
+
 <hr>
 
 <p>Some technical details:</p>
 <ul>
-    <li>This site is hosted on Heroku</li>
-    <li>The authentication mechanism is via Github's OAuth</li>
+    <li>This site is currently hosted on <a href = "http://www.heroku.com/">Heroku</a></li>
+    <li>The authentication mechanism is via <a href = "http://developer.github.com/v3/oauth/">Github's OAuth</a></li>
     <li>No data from your Github account is collected or persisted beyond the
       browser session</li>
     <li>The only data collected is user statistics via Google Analytics, and is
