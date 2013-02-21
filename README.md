@@ -1,5 +1,7 @@
 # govweb
 
+[![Dependency Status](https://gemnasium.com/miketheman/govweb.png)](https://gemnasium.com/miketheman/govweb)
+
 ## WTF is this?
 
 To anyone that manages a Github Organization:
