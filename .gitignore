@@ -18,4 +18,6 @@ _yardoc
 doc/
 
 .rvmrc
+.ruby-version
+.ruby-gemset
 .env
