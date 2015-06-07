@@ -21,3 +21,4 @@ doc/
 .ruby-version
 .ruby-gemset
 .env
+.envrc
