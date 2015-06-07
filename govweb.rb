@@ -40,11 +40,6 @@ module GovWeb
         github_user.api.orgs
       end
 
-      # @note http://developer.github.com/v3/repos/#list-organization-repositories
-      def get_org_repos(org)
-        puts github_request("orgs/#{org}/repos")
-      end
-
       # We remove the "Owner" team here, as this adds useless connections
       # @note http://developer.github.com/v3/orgs/teams/#list-teams
       def org_teams(org)
