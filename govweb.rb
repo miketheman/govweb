@@ -1,12 +1,14 @@
 #!/usr/bin/env ruby
 require 'sinatra'
 require 'sinatra/auth/github'
+require 'tilt/erb'
 
 module GovWeb
   class App < Sinatra::Base
     configure :development do
       require 'sinatra/reloader'
       register Sinatra::Reloader
+      require 'pry'
     end
 
     configure :production do
@@ -14,29 +16,26 @@ module GovWeb
     end
 
     configure do
-      set :public_folder, Proc.new { File.join(root, "static") }
+      set :public_folder, proc { File.join(root, 'static') }
 
       enable :sessions
 
-      set :github_options, {
-        :scopes    => "user", # OPTIMIZE: Do we need any other scopes? Maybe not
-        :secret    => ENV['GITHUB_CLIENT_SECRET'],
-        :client_id => ENV['GITHUB_CLIENT_ID'],
-      }
+      set :github_options,  scopes:    'read:org',
+                            secret:    ENV['GITHUB_CLIENT_SECRET'],
+                            client_id: ENV['GITHUB_CLIENT_ID']
 
       # Really only to prevent whitespace in generated HTML. Rails built-in.
-      set :erb, :trim => '-'
+      set :erb, trim: '-'
     end
 
     register Sinatra::Auth::Github
 
     helpers do
-
       def username
         session[:identity] ? session[:identity] : 'Unknown user'
       end
 
-      # @note http://developer.github.com/v3/orgs/#list-user-organizations
+      # @see http://developer.github.com/v3/orgs/#list-user-organizations
       def user_orgs
         github_request("user/orgs")
       end
@@ -51,7 +50,7 @@ module GovWeb
       def org_teams(org)
         results = github_request("orgs/#{org}/teams")
         # blacklist = ['owners']
-        filtered = results.reject { |h| ['owners'].include? h['slug'] }
+        results.reject { |h| ['owners'].include? h['slug'] }
       end
 
       # @note http://developer.github.com/v3/orgs/teams/#list-team-members
@@ -59,21 +58,21 @@ module GovWeb
         github_request("teams/#{team}/members")
       end
 
-      # Assemble a Hash keyed by team_id whose values are hashes of 
+      # Assemble a Hash keyed by team_id whose values are hashes of
       # {:id => int, :members => Array }
       #
       # @param [Int] team id
       # @return [Hash]
       # @example
       #   { :id => 1234, :members => ['mike', 'dan'] }
-      # @note http://developer.github.com/v3/orgs/teams/#list-team-members
+      # @see http://developer.github.com/v3/orgs/teams/#list-team-members
       def get_team_members(team_id)
         members = Array.new
         github_request("teams/#{team_id}/members").each do |member|
           members << member['login']
         end
 
-        team_members = { :id => team_id, :members => members }
+        { id: team_id, members: members }
       end
 
       # Get the team_id, permission and repos
@@ -110,9 +109,9 @@ module GovWeb
       erb :logout
     end
 
-    # This method ensures that all pages that require Github access 
+    # This method ensures that all pages that require Github access
     before '/secure/*' do
-      if !session[:identity] then
+      unless session[:identity]
         session[:previous_url] = request['REQUEST_PATH']
         authenticate!
         session[:identity] = github_user.login
@@ -141,11 +140,10 @@ module GovWeb
 
       # permissions a team has
 
-      @uniq_members = Array.new
-      @uniq_repos = Array.new
+      @uniq_members = []
+      @uniq_repos = []
 
       org_teams(params[:id]).each do |team|
-
         get_team_members(team['id'])[:members].each do |member|
           @uniq_members << member
         end
@@ -153,7 +151,6 @@ module GovWeb
         get_team_repos(team['id'])[:repos].each do |repo|
           @uniq_repos << repo
         end
-
       end
 
       @uniq_members.uniq!
@@ -161,6 +158,5 @@ module GovWeb
 
       erb :graph
     end
-
   end
 end
