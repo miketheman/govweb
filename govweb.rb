@@ -37,7 +37,7 @@ module GovWeb
 
       # @see http://developer.github.com/v3/orgs/#list-user-organizations
       def user_orgs
-        github_request("user/orgs")
+        github_user.api.orgs
       end
 
       # @note http://developer.github.com/v3/repos/#list-organization-repositories
@@ -48,28 +48,21 @@ module GovWeb
       # We remove the "Owner" team here, as this adds useless connections
       # @note http://developer.github.com/v3/orgs/teams/#list-teams
       def org_teams(org)
-        results = github_request("orgs/#{org}/teams")
+        results = github_user.api.org_teams(org)
         # blacklist = ['owners']
         results.reject { |h| ['owners'].include? h['slug'] }
       end
 
-      # @note http://developer.github.com/v3/orgs/teams/#list-team-members
-      def team_members(team)
-        github_request("teams/#{team}/members")
-      end
-
-      # Assemble a Hash keyed by team_id whose values are hashes of
-      # {:id => int, :members => Array }
+      # Assemble a Hash of each team and an array of members
       #
       # @param [Int] team id
       # @return [Hash]
       # @example
-      #   { :id => 1234, :members => ['mike', 'dan'] }
+      #   { id: 1234, members: ['mike', 'dan'] }
       # @see http://developer.github.com/v3/orgs/teams/#list-team-members
       def get_team_members(team_id)
-        members = Array.new
-        github_request("teams/#{team_id}/members").each do |member|
-          members << member['login']
+        members = github_user.api.team_members(team_id).inject([]) do |all, member|
+          all << member['login']
         end
 
         { id: team_id, members: members }
@@ -80,21 +73,15 @@ module GovWeb
       # @param [Int] team id
       # @return [Hash]
       # @example
-      #   { :id => 1234, :repos => ['fooproj', 'barproj'] }
-      # @note http://developer.github.com/v3/orgs/teams/#list-team-repos
+      #   { id: 1234, repos: ['fooproj', 'barproj'] }
+      # @see http://developer.github.com/v3/orgs/teams/#list-team-repos
       def get_team_repos(team_id)
-        repos = Array.new
-        github_request("teams/#{team_id}/repos").each do |repo|
-          repos << repo['name']
+        repos = github_user.api.team_repos(team_id).inject([]) do |all, repo|
+          all << repo['name']
         end
 
-        team_repos = { :id => team_id, :repos => repos }
+        { id: team_id, repos: repos }
       end
-
-      def is_org_owner(org)
-        # TODO: tell user if they are an owner of an org
-      end
-
     end
 
     # Show us the homepage
