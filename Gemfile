@@ -1,15 +1,18 @@
 source 'https://rubygems.org'
 
-gem 'newrelic_rpm', '~> 3.6'
-gem 'rack', '~> 1.5'
-gem 'sinatra', '~> 1.4'
-gem 'sinatra_auth_github', '~> 0.12.0'
+ruby '2.2.2'
+
+gem 'newrelic_rpm', '~> 3.12'
+gem 'rack'
+gem 'sinatra'
+gem 'sinatra_auth_github'
 
 group :test do
-  gem 'tailor', '~> 1.2'
+  gem 'rubocop'
 end
 
 group :development do
-  gem 'sinatra-contrib'
+  gem 'foreman'
   gem 'pry'
+  gem 'sinatra-contrib'
 end
