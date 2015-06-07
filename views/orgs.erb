@@ -3,7 +3,7 @@
     <p>You are a member of the following organization(s):</p>
 
     <ul class = "unstyled">
-    <% for org in user_orgs -%>
+    <% for org in user_orgs.sort_by(&:login) -%>
       <li><a class="btn" href="/secure/graph/<%= org['login'] %>"><%= org['login'] %></a></li>
     <% end -%>
     </ul>
