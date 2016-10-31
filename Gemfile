@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.2.2'
+ruby '2.3.1'
 
-gem 'newrelic_rpm', '~> 3.12'
+gem 'newrelic_rpm', '~> 3.17'
 gem 'rack'
 gem 'sinatra'
 gem 'sinatra_auth_github'
