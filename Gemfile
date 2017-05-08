@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-ruby '2.3.1'
+ruby '2.4.1'
 
 gem 'newrelic_rpm', '~> 3.17'
 gem 'rack'
-gem 'sinatra'
+gem 'sinatra', '~> 1.4'
 gem 'sinatra_auth_github'
 
 group :test do

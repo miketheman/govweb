@@ -1,9 +1,12 @@
 #!/usr/bin/env ruby
+# -*- encoding: UTF-8; frozen_string_literal: true -*-
+
 require 'sinatra'
 require 'sinatra/auth/github'
 require 'tilt/erb'
 
 module GovWeb
+  # The main application
   class App < Sinatra::Base
     configure :development do
       require 'sinatra/reloader'
