@@ -1,6 +1,7 @@
 # govweb
 
-[![Dependency Status](https://gemnasium.com/miketheman/govweb.png)](https://gemnasium.com/miketheman/govweb)
+[![Dependency Status](https://gemnasium.com/badges/github.com/miketheman/govweb.svg)](https://gemnasium.com/github.com/miketheman/govweb)
+
 
 ## WTF is this?
 
@@ -44,7 +45,7 @@ then by all means, pull requests are welcomed.
 
 ## Things used
 
-* sinatra 1.3.3
+* sinatra
 * twitter bootstrap 2.2.2
 * jQuery 1.8.3
 * `sinatra_auth_github` (uses `octokit` under the hood)
