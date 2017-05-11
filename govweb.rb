@@ -12,6 +12,7 @@ module GovWeb
       require 'sinatra/reloader'
       register Sinatra::Reloader
       require 'pry'
+      require 'pry-remote'
     end
 
     configure :production do

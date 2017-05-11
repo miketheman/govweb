@@ -16,5 +16,6 @@ end
 group :development do
   gem 'foreman'
   gem 'pry'
+  gem 'pry-remote'
   gem 'sinatra-contrib'
 end
