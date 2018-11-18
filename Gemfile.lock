@@ -35,7 +35,7 @@ GEM
       pry (~> 0.9)
       slop (~> 3.0)
     public_suffix (2.0.5)
-    rack (1.6.10)
+    rack (1.6.11)
     rack-protection (1.5.5)
       rack
     rack-test (0.6.3)
@@ -99,4 +99,4 @@ RUBY VERSION
    ruby 2.5.3p105
 
 BUNDLED WITH
-   1.16.2
+   1.16.6
