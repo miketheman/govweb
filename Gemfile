@@ -5,9 +5,9 @@ source 'https://rubygems.org'
 ruby '2.5.3'
 
 gem 'newrelic_rpm', '~> 4.1'
-gem 'rack', '>= 1.6.12'
-gem 'sinatra', '~> 1.4', '>= 1.4.8' # Can't move to 2.0 until sinatra_auth_github does.
-gem 'sinatra_auth_github', '~> 1.2', '>= 1.2.0'
+gem 'rack', '>= 2.1.3'
+gem 'sinatra', '~> 2.0', '>= 2.0.0' # Can't move to 2.0 until sinatra_auth_github does.
+gem 'sinatra_auth_github', '~> 2.0', '>= 2.0.0'
 
 group :test do
   gem 'rubocop', '>= 0.48.1'
@@ -17,5 +17,5 @@ group :development do
   gem 'foreman'
   gem 'pry'
   gem 'pry-remote'
-  gem 'sinatra-contrib', '>= 1.4.7'
+  gem 'sinatra-contrib', '>= 2.0.0'
 end
