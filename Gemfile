@@ -10,7 +10,7 @@ gem 'sinatra', '~> 2.0', '>= 2.0.8.1' # Can't move to 2.0 until sinatra_auth_git
 gem 'sinatra_auth_github', '~> 2.0', '>= 2.0.0'
 
 group :test do
-  gem 'rubocop', '>= 0.48.1'
+  gem 'rubocop', '>= 0.80.1'
 end
 
 group :development do
