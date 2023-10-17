@@ -17,5 +17,5 @@ group :development do
   gem 'foreman'
   gem 'pry'
   gem 'pry-remote'
-  gem 'sinatra-contrib', '>= 2.2.3'
+  gem 'sinatra-contrib', '>= 2.2.1'
 end
